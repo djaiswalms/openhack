@@ -1,0 +1,6 @@
+{
+	"name": "VanArnsdaleLTDRunTime",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
