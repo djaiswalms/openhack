@@ -22,16 +22,10 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "JoinOrdersAndOrderDetails"
-				},
-				{
-					"name": "DerivedColumn1"
-				},
-				{
-					"name": "Select1"
+					"name": "JoinOrderAndOrderDetails"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tOrderDetailID as string,\n\t\tOrderID as string,\n\t\tMovieID as string,\n\t\tQuantity as string,\n\t\tUnitCost as string,\n\t\tLineNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudSalesOrderDetails\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string,\n\t\tColumn_5 as string,\n\t\tColumn_6 as string,\n\t\tColumn_7 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudSalesOrder\nCloudSalesOrderDetails, CloudSalesOrder join(CloudSalesOrderDetails@OrderID == CloudSalesOrders@OrderID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> JoinOrdersAndOrderDetails\nSelect1 derive(SourceSystemID = 1,\n\t\tGlobalOrderID = ERROR_FUNCTION('')) ~> DerivedColumn1\nJoinOrdersAndOrderDetails select(mapColumn(\n\t\tOrderDetailID,\n\t\tOrderID,\n\t\tMovieID,\n\t\tQuantity,\n\t\tUnitCost,\n\t\tLineNumber,\n\t\tCreatedDate,\n\t\tUpdatedDate,\n\t\tColumn_1,\n\t\tColumn_2,\n\t\tColumn_3,\n\t\tColumn_4,\n\t\tColumn_5,\n\t\tColumn_6,\n\t\tColumn_7\n\t)) ~> Select1"
+			"script": "\n\nsource(output(\n\t\tOrderDetailID as string,\n\t\tOrderID as string,\n\t\tMovieID as string,\n\t\tQuantity as string,\n\t\tUnitCost as string,\n\t\tLineNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudSalesOrderDetails\nsource(output(\n\t\tOrderID as string,\n\t\tCustomerID as string,\n\t\tOrderDate as string,\n\t\tShipDate as string,\n\t\tTotalCost as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudSalesOrder\nCloudSalesOrder, CloudSalesOrderDetails join(CloudSalesOrder@OrderID == CloudSalesOrderDetails@OrderID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> JoinOrderAndOrderDetails"
 		}
 	}
 }
