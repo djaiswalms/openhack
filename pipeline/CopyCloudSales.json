@@ -63,7 +63,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_pzd",
+									"referenceName": "DestinationDataset_pzdCSO",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"
