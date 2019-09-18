@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "SalesOrder.csv",
 				"folderPath": "Staging",
 				"fileSystem": "root"
 			},
