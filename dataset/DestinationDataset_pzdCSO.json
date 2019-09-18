@@ -1,5 +1,5 @@
 {
-	"name": "DestinationDataset_pzd",
+	"name": "DestinationDataset_pzdCSO",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorageCloudSalesLink",
@@ -15,10 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": {
-					"value": "@dataset().cw_fileName",
-					"type": "Expression"
-				},
+				"fileName": "dboOrders.csv",
 				"folderPath": "landing/CloudSales",
 				"fileSystem": "root"
 			},
@@ -27,7 +24,36 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "String"
+			},
+			{
+				"name": "CustomerID",
+				"type": "String"
+			},
+			{
+				"name": "OrderDate",
+				"type": "String"
+			},
+			{
+				"name": "ShipDate",
+				"type": "String"
+			},
+			{
+				"name": "TotalCost",
+				"type": "String"
+			},
+			{
+				"name": "CreatedDate",
+				"type": "String"
+			},
+			{
+				"name": "UpdatedDate",
+				"type": "String"
+			}
+		]
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }
