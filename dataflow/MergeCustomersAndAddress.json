@@ -31,6 +31,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "VanArsdelCustomer"
+				},
+				{
+					"dataset": {
+						"referenceName": "CloudStreamingCust",
+						"type": "DatasetReference"
+					},
+					"name": "CloudStreamingCust"
+				},
+				{
+					"dataset": {
+						"referenceName": "CloudStreamingAddr",
+						"type": "DatasetReference"
+					},
+					"name": "CloudStreamingAddr"
 				}
 			],
 			"sinks": [
@@ -54,9 +68,39 @@
 				},
 				{
 					"name": "ReorderColumns"
+				},
+				{
+					"name": "SelectForthCoffeeCustomers"
+				},
+				{
+					"name": "CalculateFC"
+				},
+				{
+					"name": "SelectVACustomers"
+				},
+				{
+					"name": "CalculateVA"
+				},
+				{
+					"name": "AddFCandVA"
+				},
+				{
+					"name": "AddAllCustomers"
+				},
+				{
+					"name": "CloudStreamJoin"
+				},
+				{
+					"name": "SelectCS"
+				},
+				{
+					"name": "CalculateCS"
+				},
+				{
+					"name": "AddCSCustomers"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeCustomers\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeAddress\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FourthCoffeeCustomers\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdelCustomer\nSouthridgeCustomers, SouthridgeAddress join(SouthridgeCustomers@CustomerID == SouthridgeAddress@CustomerID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> JoinCustomerAndAddress\nJoinCustomerAndAddress select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ChangeColumnNames\nChangeColumnNames derive(ActiveFlag = true(),\n\t\tRecordEndDate = toString(null())) ~> CalculateDate\nCalculateDate select(mapColumn(\n\t\tCustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tPhoneNumber,\n\t\tRecordStartDate = CreatedDate,\n\t\tRecordEndDate = UpdatedDate,\n\t\tActiveFlag\n\t)) ~> ReorderColumns\nReorderColumns sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimCustomers.csv'],\n\tpartitionBy('hash', 1)) ~> SouthridgeCustomersDW"
+			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeCustomers\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeAddress\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FourthCoffeeCustomers\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdelCustomer\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudStreamingCust\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudStreamingAddr\nSouthridgeCustomers, SouthridgeAddress join(SouthridgeCustomers@CustomerID == SouthridgeAddress@CustomerID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> JoinCustomerAndAddress\nJoinCustomerAndAddress select(mapColumn(\n\t\tCustomerID = SouthridgeCustomers@CustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tPhoneNumber,\n\t\tRecordStartDate = SouthridgeCustomers@CreatedDate,\n\t\tAddressID,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> ChangeColumnNames\nChangeColumnNames derive(ActiveFlag = true(),\n\t\tRecordEndDate = toString(null())) ~> CalculateDate\nCalculateDate select(mapColumn(\n\t\tCustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tPhoneNumber,\n\t\tRecordStartDate,\n\t\tRecordEndDate,\n\t\tActiveFlag\n\t)) ~> ReorderColumns\nFourthCoffeeCustomers select(mapColumn(\n\t\tCustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tPhoneNumber,\n\t\tRecordStartDate = CreatedDate\n\t)) ~> SelectForthCoffeeCustomers\nSelectForthCoffeeCustomers derive(RecordEndDate = toString(null()),\n\t\tActiveFlag = true()) ~> CalculateFC\nVanArsdelCustomer select(mapColumn(\n\t\tCustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tPhoneNumber,\n\t\tRecordStartDate = CreatedDate\n\t)) ~> SelectVACustomers\nSelectVACustomers derive(RecordEndDate = toString(null()),\n\t\tActiveFlag = true()) ~> CalculateVA\nCalculateFC, CalculateVA union(byName: true)~> AddFCandVA\nReorderColumns, AddFCandVA union(byName: true)~> AddAllCustomers\nCloudStreamingCust, CloudStreamingAddr join(CloudStreamingCust@CustomerID == CloudStreamingAddr@CustomerID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> CloudStreamJoin\nCloudStreamJoin select(mapColumn(\n\t\tCustomerID = CloudStreamingCust@CustomerID,\n\t\tLastName,\n\t\tFirstName,\n\t\tAddressLine1,\n\t\tAddressLine2,\n\t\tCity,\n\t\tState,\n\t\tZipCode,\n\t\tPhoneNumber,\n\t\tRecordStartDate = CloudStreamingCust@CreatedDate\n\t)) ~> SelectCS\nSelectCS derive(RecordEndDate = toString(null()),\n\t\tActiveFlag = true()) ~> CalculateCS\nAddAllCustomers, CalculateCS union(byName: true)~> AddCSCustomers\nAddCSCustomers sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimCustomers.csv'],\n\tpartitionBy('hash', 1)) ~> SouthridgeCustomersDW"
 		}
 	}
 }
