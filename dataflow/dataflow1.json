@@ -10,6 +10,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "CloudSalesOrderDetails",
+						"type": "DatasetReference"
+					},
+					"name": "CloudSalesOrderDetails"
 				}
 			],
 			"sinks": [
@@ -22,7 +29,7 @@
 				}
 			],
 			"transformations": [],
-			"script": "\n\nsource(output(\n\t\tOrderID as string,\n\t\tCustomerID as string,\n\t\tOrderDate as string,\n\t\tShipDate as string,\n\t\tTotalCost as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
+			"script": "\n\nsource(output(\n\t\tOrderID as string,\n\t\tCustomerID as string,\n\t\tOrderDate as string,\n\t\tShipDate as string,\n\t\tTotalCost as double,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource(output(\n\t\tOrderDetailID as string,\n\t\tOrderID as string,\n\t\tMovieID as string,\n\t\tQuantity as string,\n\t\tUnitCost as string,\n\t\tLineNumber as string,\n\t\tCreatedDate as string,\n\t\tUpdatedDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CloudSalesOrderDetails\nsource1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 		}
 	}
 }

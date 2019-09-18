@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "_committed_8474998697185965788",
 				"folderPath": "Staging",
 				"fileSystem": "root"
 			},
