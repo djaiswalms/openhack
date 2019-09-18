@@ -26,7 +26,15 @@
 					"name": "VanArsdel"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "MovieOutputcsv",
+						"type": "DatasetReference"
+					},
+					"name": "MovieOutput"
+				}
+			],
 			"transformations": [
 				{
 					"name": "Select1"
@@ -36,9 +44,15 @@
 				},
 				{
 					"name": "Select3"
+				},
+				{
+					"name": "Union1"
+				},
+				{
+					"name": "Union2"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as long,\n\t\truntime as long,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as long,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviePQ\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MovieForthCoffee\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdel\nMovieForthCoffee select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select1\nMoviePQ select(mapColumn(\n\t\tMovieID = id,\n\t\tMovieTitle = title,\n\t\tMovieCategory = genre,\n\t\tMovieRating = rating,\n\t\tMovieRunTimeMin = runtime\n\t)) ~> Select2\nVanArsdel select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select3"
+			"script": "\n\nsource(output(\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as long,\n\t\truntime as long,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as long,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviePQ\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as long,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MovieForthCoffee\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as long,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdel\nMovieForthCoffee select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select1\nMoviePQ select(mapColumn(\n\t\tMovieID = id,\n\t\tMovieTitle = title,\n\t\tMovieCategory = genre,\n\t\tMovieRating = rating,\n\t\tMovieRunTimeMin = runtime\n\t)) ~> Select2\nVanArsdel select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select3\nSelect2, Select1 union(byName: true)~> Union1\nUnion1, Select3 union(byName: true)~> Union2\nUnion2 sink(input(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tPhoneNumber as string,\n\t\tRecordStartDate as string,\n\t\tRecordEndDate as string,\n\t\tActiveFlag as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['DimMovies.csv'],\n\tpartitionBy('hash', 1)) ~> MovieOutput"
 		}
 	}
 }
