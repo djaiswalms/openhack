@@ -1,0 +1,21 @@
+{
+	"name": "MovieParquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageCloudSalesLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Movies2",
+				"folderPath": "Staging",
+				"fileSystem": "root"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
