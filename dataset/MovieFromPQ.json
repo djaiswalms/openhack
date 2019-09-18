@@ -1,0 +1,78 @@
+{
+	"name": "MovieFromPQ",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageCloudSalesLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Movies2",
+				"folderPath": "Staging",
+				"fileSystem": "root"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "availabilityDate",
+				"type": "UTF8"
+			},
+			{
+				"name": "genre",
+				"type": "UTF8"
+			},
+			{
+				"name": "rating",
+				"type": "UTF8"
+			},
+			{
+				"name": "releaseYear",
+				"type": "INT64"
+			},
+			{
+				"name": "runtime",
+				"type": "INT64"
+			},
+			{
+				"name": "streamingAvailabilityDate",
+				"type": "UTF8"
+			},
+			{
+				"name": "tier",
+				"type": "INT64"
+			},
+			{
+				"name": "title",
+				"type": "UTF8"
+			},
+			{
+				"name": "id",
+				"type": "UTF8"
+			},
+			{
+				"name": "_rid",
+				"type": "UTF8"
+			},
+			{
+				"name": "_self",
+				"type": "UTF8"
+			},
+			{
+				"name": "_etag",
+				"type": "UTF8"
+			},
+			{
+				"name": "_attachments",
+				"type": "UTF8"
+			},
+			{
+				"name": "_ts",
+				"type": "INT64"
+			}
+		]
+	}
+}
