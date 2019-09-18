@@ -17,6 +17,12 @@
 						"type": "DatasetReference"
 					},
 					"name": "VanArdel"
+				},
+				{
+					"name": "source1"
+				},
+				{
+					"name": "source2"
 				}
 			],
 			"sinks": [],
@@ -25,7 +31,7 @@
 					"name": "Join1"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ForthCoffee\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArdel\nForthCoffee, VanArdel join(ForthCoffee@MovieID == VanArdel@MovieID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1"
+			"script": "\n\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ForthCoffee\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArdel\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source2\nForthCoffee, VanArdel join(ForthCoffee@MovieID == VanArdel@MovieID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1"
 		}
 	}
 }
