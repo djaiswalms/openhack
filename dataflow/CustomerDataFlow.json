@@ -19,7 +19,22 @@
 					"name": "SouthridgeAddress"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SouthridgeCustomerOutput",
+						"type": "DatasetReference"
+					},
+					"name": "SouthridgeCustomerSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "SouthridgeAddressSink",
+						"type": "DatasetReference"
+					},
+					"name": "SouthridgeSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "SourceSystemID"
@@ -28,7 +43,7 @@
 					"name": "SouthSystemIDSA"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date 'yyyy-MM-dd',\n\t\tUpdatedDate as date 'yyyy-MM-dd'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeCustomer\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as date 'yyyy-MM-dd',\n\t\tUpdatedDate as date 'yyyy-MM-dd'\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeAddress\nSouthridgeCustomer derive(SourceSystemID = 'SouthridgeCloudSales') ~> SourceSystemID\nSouthridgeAddress derive(SourceSystemID = 'SouthridgeCloudSales') ~> SouthSystemIDSA"
+			"script": "\n\nsource(output(\n\t\tCustomerID as string,\n\t\tLastName as string,\n\t\tFirstName as string,\n\t\tPhoneNumber as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeCustomer\nsource(output(\n\t\tAddressID as string,\n\t\tCustomerID as string,\n\t\tAddressLine1 as string,\n\t\tAddressLine2 as string,\n\t\tCity as string,\n\t\tState as string,\n\t\tZipCode as string,\n\t\tCreatedDate as date,\n\t\tUpdatedDate as date\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SouthridgeAddress\nSouthridgeCustomer derive(SourceSystemID = 'SouthridgeCloudSales') ~> SourceSystemID\nSouthridgeAddress derive(SourceSystemID = 'SouthridgeCloudSales') ~> SouthSystemIDSA\nSourceSystemID sink(input(\n\t\tOrderDetailID as string,\n\t\tOrderID as string,\n\t\tMovieID as string,\n\t\tQuantity as string,\n\t\tUnitCost as string,\n\t\tLineNumber as string,\n\t\tOrderDetailCreatedDate as string,\n\t\tOrderDetailUpdatedDate as string,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['SouthridgeCustomer.csv'],\n\tpartitionBy('hash', 1)) ~> SouthridgeCustomerSink\nSouthSystemIDSA sink(input(\n\t\tOrderDetailID as string,\n\t\tOrderID as string,\n\t\tMovieID as string,\n\t\tQuantity as string,\n\t\tUnitCost as string,\n\t\tLineNumber as string,\n\t\tOrderDetailCreatedDate as string,\n\t\tOrderDetailUpdatedDate as string,\n\t\tSourceSystemID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['SouthridgeAddress.csv'],\n\tpartitionBy('hash', 1)) ~> SouthridgeSink"
 		}
 	}
 }
