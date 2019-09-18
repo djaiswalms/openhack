@@ -1,0 +1,84 @@
+{
+	"name": "SouthridgeSalesOrderDetails",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageCloudSalesLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Staging",
+				"fileSystem": "root"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "String"
+			},
+			{
+				"name": "CustomerID",
+				"type": "String"
+			},
+			{
+				"name": "OrderDate",
+				"type": "String"
+			},
+			{
+				"name": "ShipDate",
+				"type": "String"
+			},
+			{
+				"name": "TotalCost",
+				"type": "String"
+			},
+			{
+				"name": "OrderCreatedDate",
+				"type": "String"
+			},
+			{
+				"name": "OrderUpdatedDate",
+				"type": "String"
+			},
+			{
+				"name": "OrderDetailID",
+				"type": "String"
+			},
+			{
+				"name": "MovieID",
+				"type": "String"
+			},
+			{
+				"name": "Quantity",
+				"type": "String"
+			},
+			{
+				"name": "UnitCost",
+				"type": "String"
+			},
+			{
+				"name": "LineNumber",
+				"type": "String"
+			},
+			{
+				"name": "DetailsCreatedDate",
+				"type": "String"
+			},
+			{
+				"name": "DetailsUpdatedDate",
+				"type": "String"
+			},
+			{
+				"name": "SourceSystemID",
+				"type": "String"
+			}
+		]
+	}
+}
