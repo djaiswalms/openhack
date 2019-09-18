@@ -19,6 +19,10 @@
 					"name": "MovieForthCoffee"
 				},
 				{
+					"dataset": {
+						"referenceName": "VanArsdelMovie",
+						"type": "DatasetReference"
+					},
 					"name": "VanArsdel"
 				}
 			],
@@ -29,9 +33,12 @@
 				},
 				{
 					"name": "Select2"
+				},
+				{
+					"name": "Select3"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as long,\n\t\truntime as long,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as long,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviePQ\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MovieForthCoffee\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdel\nMovieForthCoffee select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tCategory,\n\t\tRating,\n\t\tRunTimeMin,\n\t\tReleaseDate\n\t)) ~> Select1\nMoviePQ select(mapColumn(\n\t\tMovieID = id,\n\t\tMovieTitle = title,\n\t\tMovieCategory = genre,\n\t\tMovieRating = rating,\n\t\tavailabilityDate,\n\t\tMovieRunTimeMin = runtime\n\t)) ~> Select2"
+			"script": "\n\nsource(output(\n\t\tavailabilityDate as string,\n\t\tgenre as string,\n\t\trating as string,\n\t\treleaseYear as long,\n\t\truntime as long,\n\t\tstreamingAvailabilityDate as string,\n\t\ttier as long,\n\t\ttitle as string,\n\t\tid as string,\n\t\t{_rid} as string,\n\t\t{_self} as string,\n\t\t{_etag} as string,\n\t\t{_attachments} as string,\n\t\t{_ts} as long\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviePQ\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MovieForthCoffee\nsource(output(\n\t\tMovieID as string,\n\t\tMovieTitle as string,\n\t\tCategory as string,\n\t\tRating as string,\n\t\tRunTimeMin as string,\n\t\tReleaseDate as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VanArsdel\nMovieForthCoffee select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select1\nMoviePQ select(mapColumn(\n\t\tMovieID = id,\n\t\tMovieTitle = title,\n\t\tMovieCategory = genre,\n\t\tMovieRating = rating,\n\t\tMovieRunTimeMin = runtime\n\t)) ~> Select2\nVanArsdel select(mapColumn(\n\t\tMovieID,\n\t\tMovieTitle,\n\t\tMovieCategory = Category,\n\t\tMovieRating = Rating,\n\t\tMovieRunTimeMin = RunTimeMin\n\t)) ~> Select3"
 		}
 	}
 }
