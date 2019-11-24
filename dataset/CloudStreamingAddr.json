@@ -10,13 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dboAddresses.csv",
-				"folderPath": "landing/CloudStreaming",
+				"fileName": "dboAddresses.txt",
+				"folderPath": "cloudstream",
 				"fileSystem": "root"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": [
