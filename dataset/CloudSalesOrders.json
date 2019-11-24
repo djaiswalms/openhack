@@ -10,13 +10,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "dboOrders.csv",
-				"folderPath": "landing/CloudSales",
+				"fileName": "dboOrders.txt",
+				"folderPath": "cloudsales",
 				"fileSystem": "root"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
+			"firstRowAsHeader": false,
 			"quoteChar": "\""
 		},
 		"schema": [
