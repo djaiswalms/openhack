@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Movies.json",
-				"folderPath": "landing/Movies",
+				"fileName": "Movies2.json",
+				"folderPath": "Movies",
 				"fileSystem": "root"
 			}
 		}
