@@ -5,12 +5,12 @@
 		"annotations": [],
 		"type": "FileServer",
 		"typeProperties": {
-			"host": "C:\\",
+			"host": "C:\\Rentals",
 			"userId": "openhackadmin",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlYTcyMmRiMS0yNjViLTRkMjAtYmZjOC1hMTI3YjgyODM1NGYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkYzBmZTlmZC05NTY1LTQ1NGUtOTk5YS03MWFlNjk3MDU3NjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "FourthCoffeeIR",
+			"referenceName": "ForthCoffeeIR",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
