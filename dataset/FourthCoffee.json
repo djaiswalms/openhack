@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "Customers.csv",
-				"folderPath": "landing/Fourth Coffee",
+				"folderPath": "ForthCoffee",
 				"fileSystem": "root"
 			},
 			"columnDelimiter": ",",
