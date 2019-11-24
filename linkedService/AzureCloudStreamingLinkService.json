@@ -6,8 +6,8 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=southridge-sqlserver-qjmnnlgpenw7q.database.windows.net;initial catalog=CloudStreaming;user id=southridge",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNPVVRIUklER0VfMDQ0MzMyODYtZmYxOS00MDRlLTg0N2MtNTRhYjIyMmE5YjlhIg0KfQ=="
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=southridge-sqlserver-iib73tk5hlea6.database.windows.net;initial catalog=CloudStreaming;user id=southridge",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIlNPVVRIUklER0VfOGUzMTdiM2EtNTBmNy00NTIwLWJhM2EtYWI1NWY0YzY5OTBjIg0KfQ=="
 		}
 	}
 }
