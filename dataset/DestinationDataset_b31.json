@@ -5,12 +5,21 @@
 			"referenceName": "AzureDataLakeStorageCloudSalesLink",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"cw_filename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "landing/Fourth Coffee",
+				"fileName": {
+					"value": "@dataset().cw_fileName",
+					"type": "Expression"
+				},
+				"folderPath": "FourthCoffee",
 				"fileSystem": "root"
 			}
 		},
