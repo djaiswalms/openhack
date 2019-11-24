@@ -19,7 +19,7 @@
 					"value": "@dataset().cw_fileName",
 					"type": "Expression"
 				},
-				"folderPath": "landing/CloudStreaming",
+				"folderPath": "CloudStream",
 				"fileSystem": "root"
 			},
 			"columnDelimiter": ",",
